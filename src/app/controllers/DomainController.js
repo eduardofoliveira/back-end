@@ -55,7 +55,7 @@ class DomainController {
     }
 
     try {
-      domainExists.destroy();
+      await domainExists.destroy();
       return res.json({ message: 'Domain deleted' });
     } catch (error) {
       return res.status(500).json({ error: 'Server Internal Error' });

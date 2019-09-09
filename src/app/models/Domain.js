@@ -12,6 +12,8 @@ class Domain extends Model {
         timestamps: false,
       }
     );
+
+    return this;
   }
 }
 
