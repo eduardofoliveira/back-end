@@ -1,5 +1,6 @@
 import { Router } from 'express';
 
+import TicketController from './app/controllers/TicketController';
 import SessionController from './app/controllers/SessionController';
 import DomainController from './app/controllers/DomainController';
 import UserController from './app/controllers/UserController';
@@ -23,5 +24,7 @@ routes.get('/users/:domain/:id', UserController.index);
 routes.post('/users/:domain', UserController.store);
 routes.put('/users/:domain/:id', UserController.update);
 routes.delete('/users/:domain/:id', UserController.delete);
+
+routes.get('/tickets', TicketController.show);
 
 export default routes;
