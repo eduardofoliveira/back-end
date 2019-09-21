@@ -15,6 +15,8 @@ class TicketController {
       aberto = { [Op.eq]: 1 };
     } else if (visualizacao === 'fechados') {
       aberto = { [Op.eq]: 0 };
+    } else {
+      aberto = { [Op.gte]: 0 };
     }
 
     const user = await User.findByPk(req.user.id);
