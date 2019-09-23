@@ -16,6 +16,8 @@ class TicketController {
       proto = { [Op.like]: `%${proto}%` };
     }
 
+    console.log(proto);
+
     if (visualizacao === 'todos') {
       aberto = { [Op.gte]: 0 };
     } else if (visualizacao === 'abertos') {
