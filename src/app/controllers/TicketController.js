@@ -11,12 +11,10 @@ class TicketController {
     let aberto;
 
     if (!proto) {
-      proto = { [Op.like]: '' };
+      proto = { [Op.like]: '%' };
     } else {
       proto = { [Op.like]: `%${proto}%` };
     }
-
-    console.log(proto);
 
     if (visualizacao === 'todos') {
       aberto = { [Op.gte]: 0 };
