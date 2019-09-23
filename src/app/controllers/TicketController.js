@@ -7,7 +7,14 @@ const { Op } = Sequelize;
 class TicketController {
   async show(req, res) {
     const { visualizacao = 'todos', page = 0 } = req.query;
+    let { proto } = req.query;
     let aberto;
+
+    if (!proto) {
+      proto = { [Op.like]: '' };
+    } else {
+      proto = { [Op.like]: `%${proto}%` };
+    }
 
     if (visualizacao === 'todos') {
       aberto = { [Op.gte]: 0 };
@@ -23,7 +30,7 @@ class TicketController {
     const offset = parseInt(page * 50, 10);
 
     const tickets = await Ticket.findAndCountAll({
-      where: { fk_id_dominio: user.fk_id_dominio, aberto },
+      where: { fk_id_dominio: user.fk_id_dominio, aberto, id: proto },
       include: [{ model: User, as: 'usuario', attributes: ['nome'] }],
       order: [['inicio', 'DESC']],
       limit: 50,
