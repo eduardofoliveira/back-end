@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import Ticket from '../models/Ticket';
 import User from '../models/User';
+import Contact from '../models/Contact';
 
 const { Op } = Sequelize;
 
@@ -68,6 +69,40 @@ class TicketController {
     });
 
     res.json(tickets);
+  }
+
+  async index(req, res) {
+    const { id } = req.params;
+
+    const ticket = await Ticket.findOne({
+      where: { id },
+    });
+
+    const de = await Contact.findOne({
+      where: {
+        did: ticket.de,
+        fk_id_dominio: ticket.fk_id_dominio,
+      },
+      attributes: ['id', 'did', 'descricao'],
+    });
+
+    const para = await Contact.findOne({
+      where: {
+        did: ticket.para,
+        fk_id_dominio: ticket.fk_id_dominio,
+      },
+      attributes: ['id', 'did', 'descricao'],
+    });
+
+    if (de) {
+      ticket.de = de;
+    }
+
+    if (para) {
+      ticket.para = para;
+    }
+
+    res.send(ticket);
   }
 }
 
