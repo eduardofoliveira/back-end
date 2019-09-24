@@ -27,7 +27,7 @@ class SessionController {
         id_dominio,
         tipo,
       },
-      token: jwt.sign({ id, user_basix }, authConfig.secret, {
+      token: jwt.sign({ id, user_basix, id_dominio, tipo }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),
     });

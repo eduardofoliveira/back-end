@@ -104,6 +104,20 @@ class TicketController {
 
     res.send(ticket);
   }
+
+  async update(req, res) {
+    const { id } = req.params;
+
+    const ticket = await Ticket.findOne({
+      where: { id, fk_id_dominio: req.user.id_dominio },
+    });
+
+    if (ticket) {
+      const updatedTicket = await ticket.update(req.body);
+      return res.status(202).json(updatedTicket);
+    }
+    return res.status(404).json({ error: 'Ticket não encontrado' });
+  }
 }
 
 export default new TicketController();

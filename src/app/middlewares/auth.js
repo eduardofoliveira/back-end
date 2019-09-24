@@ -18,6 +18,8 @@ export default async (req, res, next) => {
     req.user = {
       id: decoded.id,
       user_basix: decoded.user_basix,
+      id_dominio: decoded.id_dominio,
+      tipo: decoded.tipo,
     };
   } catch (error) {
     return res.status(401).json({ error: 'Token invalid' });

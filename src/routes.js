@@ -27,5 +27,6 @@ routes.delete('/users/:domain/:id', UserController.delete);
 
 routes.get('/tickets', TicketController.show);
 routes.get('/tickets/:id', TicketController.index);
+routes.put('/tickets/:id', TicketController.update);
 
 export default routes;
