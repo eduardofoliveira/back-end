@@ -47,7 +47,7 @@ class TicketController {
     } else if (visualizacao === 'fechados') {
       aberto = { [Op.eq]: 0 };
     } else if (visualizacao === 'pendentes') {
-      aberto = { [Op.eq]: 2 };
+      aberto = { [Op.eq]: 3 };
     } else if (visualizacao === 'meus_tickets') {
       aberto = { [Op.gte]: 0 };
       fk_id_usuario = { [Op.eq]: req.user.id };
