@@ -4,10 +4,11 @@ import Domain from '../app/models/Domain';
 import User from '../app/models/User';
 import Ticket from '../app/models/Ticket';
 import Contact from '../app/models/Contact';
+import ContactFields from '../app/models/ContactFields';
 
 import databaseConfig from '../config/database';
 
-const models = [Domain, User, Ticket, Contact];
+const models = [Domain, User, Ticket, Contact, ContactFields];
 
 class Database {
   constructor() {

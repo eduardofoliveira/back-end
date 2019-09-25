@@ -20,6 +20,10 @@ class Contact extends Model {
 
   static associate(models) {
     this.belongsTo(models.Domain, { foreignKey: 'fk_id_dominio' });
+    this.hasMany(models.ContactFields, {
+      foreignKey: 'fk_id_agenda',
+      sourceKey: 'id',
+    });
   }
 }
 

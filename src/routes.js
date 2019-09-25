@@ -4,6 +4,7 @@ import TicketController from './app/controllers/TicketController';
 import SessionController from './app/controllers/SessionController';
 import DomainController from './app/controllers/DomainController';
 import UserController from './app/controllers/UserController';
+import ContactController from './app/controllers/ContactController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -28,5 +29,7 @@ routes.delete('/users/:domain/:id', UserController.delete);
 routes.get('/tickets', TicketController.show);
 routes.get('/tickets/:id', TicketController.index);
 routes.put('/tickets/:id', TicketController.update);
+
+routes.get('/contacts', ContactController.show);
 
 export default routes;
