@@ -31,5 +31,9 @@ routes.get('/tickets/:id', TicketController.index);
 routes.put('/tickets/:id', TicketController.update);
 
 routes.get('/contacts', ContactController.show);
+routes.get('/contacts/:id', ContactController.index);
+routes.put('/contacts/:id', ContactController.update);
+routes.post('/contacts', ContactController.store);
+routes.delete('/contacts/:id', ContactController.delete);
 
 export default routes;
