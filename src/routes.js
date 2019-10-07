@@ -5,6 +5,7 @@ import SessionController from './app/controllers/SessionController';
 import DomainController from './app/controllers/DomainController';
 import UserController from './app/controllers/UserController';
 import ContactController from './app/controllers/ContactController';
+import ContactFieldController from './app/controllers/ContactFieldController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -35,5 +36,7 @@ routes.get('/contacts/:id', ContactController.index);
 routes.put('/contacts/:id', ContactController.update);
 routes.post('/contacts', ContactController.store);
 routes.delete('/contacts/:id', ContactController.delete);
+
+routes.delete('/contactField/:id', ContactFieldController.delete);
 
 export default routes;
