@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
+import Domain from '../models/Domain';
 import authConfig from '../../config/auth';
 
 class SessionController {
@@ -17,6 +18,7 @@ class SessionController {
     }
 
     const { id, nome, user_basix, fk_id_dominio: id_dominio, tipo } = user;
+    const { dominio } = await Domain.findOne({ where: { id: id_dominio } });
 
     return res.json({
       user: {
@@ -25,6 +27,7 @@ class SessionController {
         email,
         user_basix,
         id_dominio,
+        dominio,
         tipo,
       },
       token: jwt.sign({ id, user_basix, id_dominio, tipo }, authConfig.secret, {
