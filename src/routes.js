@@ -28,8 +28,11 @@ routes.put('/users/:domain/:id', UserController.update);
 routes.delete('/users/:domain/:id', UserController.delete);
 
 routes.get('/tickets', TicketController.show);
+routes.get('/tickets/opens', TicketController.listOpensID);
 routes.get('/tickets/:id', TicketController.index);
 routes.put('/tickets/:id', TicketController.update);
+routes.delete('/tickets/opens', TicketController.deleteAllOpenTickets);
+routes.delete('/tickets/:id', TicketController.delete);
 
 routes.get('/contacts', ContactController.show);
 routes.get('/contacts/:id', ContactController.index);

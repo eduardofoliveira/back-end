@@ -83,6 +83,10 @@ class TicketController {
       where: { id },
     });
 
+    if (!ticket) {
+      return res.status(404).json({ error: 'Ticket não encontrado' });
+    }
+
     const de = await Contact.findOne({
       where: {
         did: ticket.de,
@@ -107,7 +111,7 @@ class TicketController {
       ticket.para = para;
     }
 
-    res.send(ticket);
+    return res.send(ticket);
   }
 
   async update(req, res) {
@@ -117,11 +121,72 @@ class TicketController {
       where: { id, fk_id_dominio: req.user.id_dominio },
     });
 
+    if (req.body.aberto === 2 && !ticket.fk_fechado_por) {
+      req.body.fk_fechado_por = req.user.id;
+    }
+
     if (ticket) {
       const updatedTicket = await ticket.update(req.body);
       return res.status(202).json(updatedTicket);
     }
     return res.status(404).json({ error: 'Ticket não encontrado' });
+  }
+
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+
+      const ticket = await Ticket.findOne({
+        where: {
+          id,
+          fk_id_dominio: req.user.id_dominio,
+        },
+      });
+
+      if (!ticket) {
+        return res.status(404).json({ error: 'Ticket não encontrado' });
+      }
+
+      await ticket.destroy();
+      return res.json({ message: 'Ticket deletado' });
+    } catch (error) {
+      return res.status(400).json({ error: 'Falha ao deletar Ticket' });
+    }
+  }
+
+  async deleteAllOpenTickets(req, res) {
+    try {
+      await Ticket.destroy({
+        where: {
+          fk_id_usuario: req.user.id,
+          fk_id_dominio: req.user.id_dominio,
+          aberto: 1,
+        },
+      });
+
+      return res.json({ message: 'Tickets abertos deletados' });
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ error: 'Falha ao deletar os Ticket abertos' });
+    }
+  }
+
+  async listOpensID(req, res) {
+    try {
+      const tickets = await Ticket.findAll({
+        where: {
+          fk_id_usuario: req.user.id,
+          fk_id_dominio: req.user.id_dominio,
+          aberto: 1,
+        },
+        attributes: ['id'],
+      });
+
+      return res.json(tickets);
+    } catch (error) {
+      return res.status(400).json({ error: 'Falha ao buscar ID´s' });
+    }
   }
 }
 
