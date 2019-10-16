@@ -28,6 +28,7 @@ routes.put('/users/:domain/:id', UserController.update);
 routes.delete('/users/:domain/:id', UserController.delete);
 
 routes.get('/tickets', TicketController.show);
+routes.get('/tickets/open', TicketController.showMyOpenTickets);
 routes.get('/tickets/opens', TicketController.listOpensID);
 routes.get('/tickets/:id', TicketController.index);
 routes.put('/tickets/:id', TicketController.update);

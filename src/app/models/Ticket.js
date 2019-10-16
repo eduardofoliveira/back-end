@@ -25,7 +25,10 @@ class Ticket extends Model {
   static associate(models) {
     this.belongsTo(models.Domain, { foreignKey: 'fk_id_dominio' });
     this.belongsTo(models.User, { foreignKey: 'fk_id_usuario', as: 'usuario' });
-    this.belongsTo(models.User, { foreignKey: 'fk_fechado_por' });
+    this.belongsTo(models.User, {
+      foreignKey: 'fk_fechado_por',
+      as: 'fechado',
+    });
   }
 }
 

@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import Ticket from '../models/Ticket';
 import User from '../models/User';
 import Contact from '../models/Contact';
+import ContactFields from '../models/ContactFields';
 
 const { Op } = Sequelize;
 
@@ -186,6 +187,71 @@ class TicketController {
       return res.json(tickets);
     } catch (error) {
       return res.status(400).json({ error: 'Falha ao buscar ID´s' });
+    }
+  }
+
+  async showMyOpenTickets(req, res) {
+    try {
+      let tickets = await Ticket.findAll({
+        where: {
+          fk_id_usuario: req.user.id,
+          fk_id_dominio: req.user.id_dominio,
+          aberto: 1,
+        },
+      });
+
+      tickets = tickets.map(async ticket => {
+        const from = await Contact.findOne({
+          where: {
+            did: ticket.de,
+            fk_id_dominio: ticket.fk_id_dominio,
+          },
+          attributes: ['id', 'did', 'descricao'],
+          include: [ContactFields],
+        });
+
+        const to = await Contact.findOne({
+          where: {
+            did: ticket.para,
+            fk_id_dominio: ticket.fk_id_dominio,
+          },
+          attributes: ['id', 'did', 'descricao', 'fraseologia'],
+        });
+
+        if (from) {
+          ticket.de = from;
+        }
+        if (to) {
+          ticket.para = to;
+        }
+
+        return ticket;
+      });
+
+      tickets = await Promise.all(tickets);
+
+      tickets = tickets.map(ticket => {
+        return {
+          id: ticket.id,
+          id_from: typeof ticket.de === 'string' ? null : ticket.de.id,
+          from: typeof ticket.de === 'string' ? ticket.de : ticket.de.did,
+          fromComment: typeof ticket.de === 'string' ? '' : ticket.de.descricao,
+          to: typeof ticket.para === 'string' ? ticket.para : ticket.para.did,
+          toComment:
+            typeof ticket.para === 'string' ? '' : ticket.para.descricao,
+          script:
+            typeof ticket.para === 'string' ? '' : ticket.para.fraseologia,
+          callid: ticket.call_id,
+          detalhes:
+            typeof ticket.de === 'string' ? null : ticket.de.ContactFields,
+        };
+      });
+
+      return res.json(tickets);
+    } catch (error) {
+      return res
+        .status(400)
+        .json({ error: 'Falha ao buscar meus Tickets abertos' });
     }
   }
 }
