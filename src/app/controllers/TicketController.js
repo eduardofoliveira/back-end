@@ -243,7 +243,7 @@ class TicketController {
             typeof ticket.para === 'string' ? '' : ticket.para.fraseologia,
           callid: ticket.call_id,
           detalhes:
-            typeof ticket.de === 'string' ? null : ticket.de.ContactFields,
+            typeof ticket.de === 'string' ? [] : ticket.de.ContactFields,
         };
       });
 
