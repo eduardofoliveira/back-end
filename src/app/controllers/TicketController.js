@@ -244,6 +244,7 @@ class TicketController {
           callid: ticket.call_id,
           detalhes:
             typeof ticket.de === 'string' ? [] : ticket.de.ContactFields,
+          historico: [],
         };
       });
 
