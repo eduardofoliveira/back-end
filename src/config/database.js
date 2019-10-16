@@ -9,4 +9,10 @@ module.exports = {
     underscored: true,
     underscoredAll: true,
   },
+  pool: {
+    max: 5,
+    min: 1,
+    acquire: 30000,
+    idle: 10000,
+  },
 };
