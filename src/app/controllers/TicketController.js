@@ -246,6 +246,7 @@ class TicketController {
             typeof ticket.de === 'string' ? [] : ticket.de.ContactFields,
           comentario: ticket.comentario,
           historico: [],
+          aberto: ticket.aberto,
         };
       });
 
