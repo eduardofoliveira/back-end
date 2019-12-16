@@ -192,7 +192,7 @@ class TicketController {
 
   async showMyOpenTickets(req, res) {
     try {
-      let tickets = await Ticket.findAll({
+      const tickets = await Ticket.findAll({
         where: {
           fk_id_usuario: req.user.id,
           fk_id_dominio: req.user.id_dominio,
@@ -200,7 +200,9 @@ class TicketController {
         },
       });
 
-      tickets = tickets.map(async ticket => {
+      for (let i = 0; i < tickets.length; i++) {
+        const ticket = tickets[i];
+
         const from = await Contact.findOne({
           where: {
             did: ticket.de,
@@ -225,30 +227,87 @@ class TicketController {
           ticket.para = to;
         }
 
-        return ticket;
-      });
+        ticket.historico = await Ticket.findAll({
+          where: {
+            id: {
+              [Op.lt]: ticket.id,
+            },
+            fk_id_dominio: ticket.fk_id_dominio,
+            de: typeof ticket.de === 'string' ? ticket.de : ticket.de.did,
+          },
+          attributes: ['id', 'comentario', 'inicio', 'aberto', 'fk_id_usuario'],
+          include: [{ model: User, as: 'usuario', attributes: ['nome'] }],
+          order: [['id', 'DESC']],
+          limit: 5,
+        });
 
-      tickets = await Promise.all(tickets);
+        ticket.historico = ticket.historico.map(item => {
+          return {
+            id: item.id,
+            comentario: item.comentario,
+            inicio: item.inicio,
+            status: item.aberto,
+            nome: item.usuario.nome,
+          };
+        });
 
-      tickets = tickets.map(ticket => {
-        return {
+        tickets[i] = {
           id: ticket.id,
+
           id_from: typeof ticket.de === 'string' ? null : ticket.de.id,
           from: typeof ticket.de === 'string' ? ticket.de : ticket.de.did,
           fromComment: typeof ticket.de === 'string' ? '' : ticket.de.descricao,
+
           to: typeof ticket.para === 'string' ? ticket.para : ticket.para.did,
           toComment:
             typeof ticket.para === 'string' ? '' : ticket.para.descricao,
           script:
             typeof ticket.para === 'string' ? '' : ticket.para.fraseologia,
+
           callid: ticket.call_id,
           detalhes:
             typeof ticket.de === 'string' ? [] : ticket.de.ContactFields,
+
           comentario: ticket.comentario,
-          historico: [],
           aberto: ticket.aberto,
+          historico: ticket.historico,
         };
-      });
+      }
+
+      // tickets = tickets.map(async ticket => {
+      //   return ticket;
+      // });
+
+      // tickets = await Promise.all(tickets);
+
+      // tickets = tickets.map(ticket => {
+      //   return {
+      //     id: ticket.id,
+      //     id_from: typeof ticket.de === 'string' ? null : ticket.de.id,
+      //     from: typeof ticket.de === 'string' ? ticket.de : ticket.de.did,
+      //     fromComment: typeof ticket.de === 'string' ? '' : ticket.de.descricao,
+      //     to: typeof ticket.para === 'string' ? ticket.para : ticket.para.did,
+      //     toComment:
+      //       typeof ticket.para === 'string' ? '' : ticket.para.descricao,
+      //     script:
+      //       typeof ticket.para === 'string' ? '' : ticket.para.fraseologia,
+      //     callid: ticket.call_id,
+      //     detalhes:
+      //       typeof ticket.de === 'string' ? [] : ticket.de.ContactFields,
+      //     comentario: ticket.comentario,
+      //     historico: ticket.historico,
+      //     // historico: [
+      //     //   {
+      //     //     id: 54975,
+      //     //     comentario: 'Chamada de teste.',
+      //     //     inicio: '5/12/2019 18:15:02',
+      //     //     status: 2,
+      //     //     nome: 'Eduardo',
+      //     //   },
+      //     // ],
+      //     aberto: ticket.aberto,
+      //   };
+      // });
 
       return res.json(tickets);
     } catch (error) {
