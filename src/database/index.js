@@ -5,10 +5,11 @@ import User from '../app/models/User';
 import Ticket from '../app/models/Ticket';
 import Contact from '../app/models/Contact';
 import ContactFields from '../app/models/ContactFields';
+import TemplateFields from '../app/models/TemplateFields';
 
 import databaseConfig from '../config/database';
 
-const models = [Domain, User, Ticket, Contact, ContactFields];
+const models = [Domain, User, Ticket, Contact, ContactFields, TemplateFields];
 
 class Database {
   constructor() {

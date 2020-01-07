@@ -6,6 +6,7 @@ import DomainController from './app/controllers/DomainController';
 import UserController from './app/controllers/UserController';
 import ContactController from './app/controllers/ContactController';
 import ContactFieldController from './app/controllers/ContactFieldController';
+import TemplateFieldsController from './app/controllers/TemplateFieldController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -42,5 +43,7 @@ routes.post('/contacts', ContactController.store);
 routes.delete('/contacts/:id', ContactController.delete);
 
 routes.delete('/contactField/:id', ContactFieldController.delete);
+
+routes.get('/templatefields/:id', TemplateFieldsController.show);
 
 export default routes;

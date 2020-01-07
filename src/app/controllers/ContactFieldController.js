@@ -10,7 +10,7 @@ class ContactFieldController {
         await contactField.destroy();
       }
 
-      return res.json({ message: 'Contato Removido' });
+      return res.json({ message: 'Campo removido' });
     } catch (error) {
       return res
         .status(400)
