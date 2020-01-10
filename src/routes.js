@@ -45,6 +45,7 @@ routes.delete('/contacts/:id', ContactController.delete);
 routes.delete('/contactField/:id', ContactFieldController.delete);
 
 routes.get('/templatefields/:id', TemplateFieldsController.show);
+routes.post('/templatefields', TemplateFieldsController.store);
 routes.delete('/templatefields/:id', TemplateFieldsController.delete);
 
 export default routes;

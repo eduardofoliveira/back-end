@@ -20,6 +20,33 @@ class TemplateFieldController {
     }
   }
 
+  async store(req, res) {
+    try {
+      const { name, id_dominio } = req.body;
+      const TemplateField = await TemplateFields.findOne({
+        where: {
+          nome_campo: name,
+          fk_id_dominio: id_dominio,
+        },
+      });
+
+      if (TemplateField) {
+        return res.status(400).json({ error: 'Campo já existe' });
+      }
+
+      const created = await TemplateFields.create({
+        nome_campo: name,
+        fk_id_dominio: id_dominio,
+      });
+
+      return res.json(created);
+    } catch (error) {
+      return res
+        .json(500)
+        .json({ error: 'Erro ao adicionar campo de template' });
+    }
+  }
+
   async delete(req, res) {
     try {
       const { id } = req.params;
