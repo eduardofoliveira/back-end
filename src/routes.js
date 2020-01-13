@@ -7,6 +7,7 @@ import UserController from './app/controllers/UserController';
 import ContactController from './app/controllers/ContactController';
 import ContactFieldController from './app/controllers/ContactFieldController';
 import TemplateFieldsController from './app/controllers/TemplateFieldController';
+import CallCenterController from './app/controllers/CallCenterController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -47,5 +48,11 @@ routes.delete('/contactField/:id', ContactFieldController.delete);
 routes.get('/templatefields/:id', TemplateFieldsController.show);
 routes.post('/templatefields', TemplateFieldsController.store);
 routes.delete('/templatefields/:id', TemplateFieldsController.delete);
+
+routes.post('/callcenter/login', CallCenterController.login);
+routes.post('/callcenter/logout', CallCenterController.logout);
+routes.get('/callcenter/pausas', CallCenterController.pausas);
+routes.post('/callcenter/pausa/entrar', CallCenterController.entrarPausa);
+routes.post('/callcenter/pausa/sair', CallCenterController.SairPausa);
 
 export default routes;
