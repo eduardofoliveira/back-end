@@ -29,7 +29,7 @@ class CallCenterController {
 
   async pausas(req, res) {
     try {
-      const { domain, group } = req.params;
+      const { domain, group } = req.query;
       const data = await obterPausas({ domain, group });
       res.json(data);
     } catch (error) {
