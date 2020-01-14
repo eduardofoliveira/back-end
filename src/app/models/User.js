@@ -9,6 +9,7 @@ class User extends Model {
         nome: Sequelize.STRING,
         email: Sequelize.STRING,
         senha: Sequelize.STRING,
+        callcenter_group: Sequelize.STRING,
         user_basix: Sequelize.STRING,
         tipo: Sequelize.TINYINT,
         loginlogout: Sequelize.TINYINT,
