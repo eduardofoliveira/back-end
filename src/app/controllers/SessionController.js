@@ -17,7 +17,15 @@ class SessionController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, nome, user_basix, fk_id_dominio: id_dominio, tipo } = user;
+    const {
+      id,
+      nome,
+      user_basix,
+      callcenter_group,
+      loginlogout,
+      fk_id_dominio: id_dominio,
+      tipo,
+    } = user;
     const { dominio } = await Domain.findOne({ where: { id: id_dominio } });
 
     return res.json({
@@ -26,6 +34,8 @@ class SessionController {
         nome,
         email,
         user_basix,
+        callcenter_group,
+        loginlogout,
         id_dominio,
         dominio,
         tipo,
