@@ -1,6 +1,7 @@
 module.exports = {
   dialect: 'mariadb',
   host: '35.171.122.245',
+  socketPath: '/var/run/mysqld/mysqld.sock',
   username: 'popup',
   password: 'B@lpha9001',
   database: 'popup',
