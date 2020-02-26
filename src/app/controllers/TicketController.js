@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
 import Sequelize from 'sequelize';
 import Ticket from '../models/Ticket';
 import User from '../models/User';
@@ -12,6 +14,8 @@ class TicketController {
       visualizacao = 'todos',
       page = 0,
       visualizacaoUser = 'todos',
+      inicio,
+      termino,
     } = req.query;
     let { proto, de, para } = req.query;
     let aberto;
@@ -67,6 +71,20 @@ class TicketController {
         de,
         para,
         fk_id_usuario,
+        [Op.and]: {
+          [Op.or]: [
+            {
+              created_at: {
+                [Op.between]: [inicio, termino],
+              },
+            },
+            {
+              updated_at: {
+                [Op.between]: [inicio, termino],
+              },
+            },
+          ],
+        },
       },
       include: [{ model: User, as: 'usuario', attributes: ['nome'] }],
       order: [['inicio', 'DESC']],

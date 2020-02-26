@@ -15,7 +15,7 @@ class Ticket extends Model {
       {
         sequelize,
         tableName: 'chamado',
-        timestamps: false,
+        timestamps: true,
       }
     );
 
