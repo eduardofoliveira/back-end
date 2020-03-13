@@ -23,6 +23,7 @@ class SessionController {
       user_basix,
       callcenter_group,
       loginlogout,
+      historico,
       fk_id_dominio: id_dominio,
       tipo,
     } = user;
@@ -36,6 +37,7 @@ class SessionController {
         user_basix,
         callcenter_group,
         loginlogout,
+        historico,
         id_dominio,
         dominio,
         tipo,
