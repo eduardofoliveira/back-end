@@ -15,6 +15,7 @@ class User extends Model {
         loginlogout: Sequelize.TINYINT,
         gravacao: Sequelize.TINYINT,
         descricao: Sequelize.STRING,
+        historico: Sequelize.TINYINT,
         ativo_dendron: Sequelize.TINYINT,
         dendron_operador: Sequelize.STRING,
         dendron_token: Sequelize.STRING,
